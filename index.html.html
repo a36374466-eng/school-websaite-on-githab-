@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Школьная Вселенная — Твой Путеводитель в Будущее</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --primary: #4f46e5;
+            --primary-light: #e0e7ff;
+            --success: #10b981;
+            --success-light: #d1fae5;
+            --math-color: #ff6b6b;
+            --math-light: #ffe3e3;
+            --lang-color: #4dadf7;
+            --lang-light: #e3f2fd;
+            --hist-color: #fcc419;
+            --hist-light: #fff9db;
+            --bio-color: #51cf66;
+            --bio-light: #ebfbee;
+            --border-radius: 20px;
+            --shadow: 0 10px 30px rgba(79, 70, 229, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Jost', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            padding: 2.5rem 2rem;
+            border-radius: var(--border-radius);
+            color: white;
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.2);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .dashboard-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .progress-item {
+            background: #f8fafc;
+            padding: 1rem;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .progress-bar-container {
+            background: #e2e8f0;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .subject-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.02);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+        }
+
+        .subject-card.math::before { background: var(--math-color); }
+        .subject-card.lang::before { background: var(--lang-color); }
+        .subject-card.hist::before { background: var(--hist-color); }
+        .subject-card.bio::before { background: var(--bio-color); }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+        }
+
+        .subject-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .math .subject-icon { background: var(--math-light); color: var(--math-color); }
+        .lang .subject-icon { background: var(--lang-light); color: var(--lang-color); }
+        .hist .subject-icon { background: var(--hist-light); color: var(--hist-color); }
+        .bio .subject-icon { background: var(--bio-light); color: var(--bio-color); }
+
+        .subject-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .subject-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .card-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tag {
+            font-size: 0.8rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+
+        .math .tag { background: var(--math-light); color: var(--math-color); }
+        .lang .tag { background: var(--lang-light); color: var(--lang-color); }
+        .hist .tag { background: var(--hist-light); color: var(--hist-color); }
+        .bio .tag { background: var(--bio-light); color: var(--bio-color); }
+
+        .btn-start {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .subject-card:hover .btn-start {
+            background: var(--primary);
+            color: white;
+        }
+
+        .workspace {
+            display: none;
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(0,0,0,0.03);
+            margin-top: 2rem;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .workspace-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn-back {
+            background: #f1f5f9;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-back:hover { background: #e2e8f0; }
+
+        .info-block {
+            background: #f8fafc;
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 15px 15px 0;
+            margin-bottom: 2rem;
+        }
+
+        .info-block h4 {
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .exam-section {
+            background: #ffffff;
+            border: 2px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .question-box {
+            margin-bottom: 1.5rem;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .option-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            padding: 1rem 1.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary);
+            background: #f5f3ff;
+        }
+
+        .option-item.selected {
+            border-color: var(--primary);
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .exam-actions {
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-next {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-next:disabled {
+            background: #cbd5e1;
+            cursor: not-allowed;
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Школьная Вселенная</h1>
+        <p>Узнай, как знания 10 класса меняют твою жизнь и открывают двери к успешной карьере</p>
+    </header>
+
+    <div class="dashboard">
+        <div class="dashboard-title">📊 Твои достижения (10 класс)</div>
+        <div class="progress-grid">
+            <div class="progress-item">
+                <div class="progress-info"><span>Алгебра</span><span id="score-math">0%</span></div>
+                <div class="progress-bar-container"><div class="progress-bar" id="bar-math"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-info"><span>Русский язык</span><span id="score-lang">0%</span></div>
+                <div class="progress-bar-container"><div class="progress-bar" id="bar-lang"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-info"><span>История</span><span id="score-hist">0%</span></div>
+                <div class="progress-bar-container"><div class="progress-bar" id="bar-hist"></div></div>
+            </div>
+            <div class="progress-item">
+                <div class="progress-info"><span>Биология</span><span id="score-bio">0%</span></div>
+                <div class="progress-bar-container"><div class="progress-bar" id="bar-bio"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="subjects-grid" id="main-menu">
+        <div class="subject-card math" onclick="openSubject('math')">
+            <div class="subject-icon">📐</div>
+            <h3>Алгебра и начала анализа</h3>
+            <p>Изучение функций, производных и тригонометрии для моделирования процессов реального мира.</p>
+            <div class="card-tags">
+                <span class="tag">Логика</span>
+                <span class="tag">Data Science</span>
+                <span class="tag">Инженерия</span>
+            </div>
+            <button class="btn-start">Исследовать и сдать экзамен</button>
+        </div>
+
+        <div class="subject-card lang" onclick="openSubject('lang')">
+            <div class="subject-icon">✍️</div>
+            <h3>Русский язык</h3>
+            <p>Освоение сложных синтаксических конструкций, стилистики и культуры эффективной речи.</p>
+            <div class="card-tags">
+                <span class="tag">Грамотность</span>
+                <span class="tag">Медиа</span>
+                <span class="tag">Переговоры</span>
+            </div>
+            <button class="btn-start">Исследовать и сдать экзамен</button>
+        </div>
+
+        <div class="subject-card hist" onclick="openSubject('hist')">
+            <div class="subject-icon">📜</div>
+            <h3>История</h3>
+            <p>Анализ глобальных событий XX века, причинно-следственных связей развития общества.</p>
+            <div class="card-tags">
+                <span class="tag">Аналитика</span>
+                <span class="tag">Политология</span>
+                <span class="tag">Юриспруденция</span>
+            </div>
+            <button class="btn-start">Исследовать и сдать экзамен</button>
+        </div>
+
+        <div class="subject-card bio" onclick="openSubject('bio')">
+            <div class="subject-icon">🧬</div>
+            <h3>Биология</h3>
+            <p>Погружение в генетику, цитологию и молекулярные основы жизни на Земле.</p>
+            <div class="card-tags">
+                <span class="tag">Медицина</span>
+                <span class="tag">Экология</span>
+                <span class="tag">Биотехнологии</span>
+            </div>
+            <button class="btn-start">Исследовать и сдать экзамен</button>
+        </div>
+    </div>
+
+    <div class="workspace" id="workspace">
+        <div class="workspace-header">
+            <h2 id="ws-title">Название предмета</h2>
+            <button class="btn-back" onclick="closeWorkspace()">← В меню</button>
+        </div>
+
+        <div class="info-block">
+            <h4>💡 Зачем это изучать?</h4>
+            <p id="ws-why">Пояснение...</p>
+        </div>
+
+        <div class="info-block" style="border-left-color: var(--success);">
+            <h4>🎯 Чего можно добиться?</h4>
+            <p id="ws-achieve">Достижения...</p>
+        </div>
+
+        <div class="exam-section">
+            <h3 style="margin-bottom: 1rem; display: flex; justify-content: space-between;">
+                <span>📝 Экзамен за 10 класс</span>
+                <span id="exam-progress" style="font-size: 1rem; color: var(--text-muted);">Вопрос 1 из 3</span>
+            </h3>
+            
+            <div id="quiz-container">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const subjectsData = {
+        math: {
+            title: "Алгебра и начала анализа (10 класс)",
+            why: "В 10 классе ты знакомишься с тригонометрическими функциями, производной и математическим анализом. Это язык, на котором разговаривает природа, экономика и технологии. Без производной невозможно рассчитать максимальную прибыль предприятия, траекторию полета ракеты или скорость изменения экономических показателей.",
+            achieve: "Зная эти темы, ты сможешь поступить на факультеты программирования, искусственного интеллекта (AI), финансового анализа и квантовой физики. Выпускники, владеющие матанализом, проектируют нейросети, создают физические движки для современных видеоигр и рассчитывают архитектурные конструкции небоскребов.",
+            questions: [
+                {
+                    q: "Чему равна производная функции f(x) = x³ - 5x + 2?",
+                    o: ["3x² - 5", "3x² - 5x", "x² - 5", "3x³ - 5"],
+                    a: 0
+                },
+                {
+                    q: "Какое основное тригонометрическое тождество является верным?",
+                    o: ["sin²x - cos²x = 1", "sin²x + cos²x = 1", "tg x * ctg x = 0", "sin x + cos x = 1"],
+                    a: 1
+                },
+                {
+                    q: "Найдите область определения функции f(x) = √(x - 4).",
+                    o: ["x > 4", "x < 4", "x ≥ 4", "Любое число"],
+                    a: 2
+                }
+            ]
+        },
+        lang: {
+            title: "Русский язык (10 класс)",
+            why: "Программа 10 класса фокусируется на углубленной орфографии, пунктуации в сложных предложениях и стилистике. Это ключ к тому, чтобы тебя воспринимали как серьезного, интеллектуального человека. Умение грамотно и аргументированно излагать мысли защищает от недопонимания и позволяет побеждать в любых дискуссиях.",
+            achieve: "Ты сможешь стать топ-менеджером, юристом, редактором, дипломатом или копирайтером. Люди, идеально владеющие словом, пишут сценарии для кино, ведут деловые переговоры на высшем уровне, управляют крупными медиа и создают сильные бренды, которым доверяют миллионы.",
+            questions: [
+                {
+                    q: "В каком слове пишется НН?",
+                    o: ["Реше...ый пример", "Кожа...ая куртка", "Гуси...ое перо", "Краше...ый забор"],
+                    a: 0
+                },
+                {
+                    q: "Выберите предложение, где знаки препинания расставлены верно.",
+                    o: ["Я пришел, когда солнце взошло и птицы запели.", "Подъезжая к станции, у меня слетела шляпа.", "Погода была отличная, однако, мы остались дома.", "Несмотря на сильный дождь, мы отправились в путь."],
+                    a: 3
+                },
+                {
+                    q: "Укажите слово, в котором допущена ошибка в ударении:",
+                    o: ["звонИт", "квартАл", "свЁкла", "тортЫ"],
+                    a: 3
+                }
+            ]
+        },
+        hist: {
+            title: "История (10 класс)",
+            why: "В 10 классе изучается переломный и самый динамичный период — начало XX века, революции, Мировые войны, индустриализация. Изучая этот период, ты учишься видеть скрытые закономерности: почему рушатся империи, как зарождаются экономические кризисы и какие ошибки прошлого нельзя повторять.",
+            achieve: "Это база для будущих политологов, социологов, бизнес-стратегов, историков и аналитиков данных. Понимая исторические циклы, можно прогнозировать тренды на рынках, выстраивать успешные пиар-кампании, работать в аналитических центрах государств и создавать достоверные исторические книги и метавселенные.",
+            questions: [
+                {
+                    q: "В каком году произошла Октябрьская революция в России?",
+                    o: ["1905 г.", "1914 г.", "1917 г.", "1922 г."],
+                    a: 2
+                },
+                {
+                    q: "Какое событие стало поводом для начала Первой мировой войны?",
+                    o: ["Убийство эрцгерцога Франца Фердинанда", "Вторжение в Польшу", "Потопление Лузитании", "Брусиловский прорыв"],
+                    a: 0
+                },
+                {
+                    q: "В каком году был официально образован СССР?",
+                    o: ["1917 г.", "1922 г.", "1924 г.", "1945 г."],
+                    a: 1
+                }
+            ]
+        },
+        bio: {
+            title: "Биология (10 класс)",
+            why: "10 класс полностью посвящен общей биологии: строению клетки, ДНК, законам Генетики Менделя и эволюционной теории. Это понимание программного кода человека и всего живого. Ты узнаешь, как кодируются наши признаки, как вирусы взламывают клетки и как работает иммунитет.",
+            achieve: "Знание генетики и цитологии открывает путь в самые высокооплачиваемые сферы будущего: биоинженерию, персонализированную медицину, фармакологию и эко-технологии. Ты сможешь разрабатывать вакцины, программировать ДНК для лечения болезней и создавать искусственные органы.",
+            questions: [
+                {
+                    q: "Где в клетке происходит синтез белка?",
+                    o: ["В ядре", "В рибосомах", "В митохондриях", "В лизосомах"],
+                    a: 1
+                },
+                {
+                    q: "Какой закон Менделя формулируется как 'Закон расщепления признаков'?",
+                    o: ["Первый закон", "Второй закон", "Третий закон", "Закон сцепленного наследования"],
+                    a: 1
+                },
+                {
+                    q: "Какая азотистая основа отсутствует в молекуле ДНК, но есть в РНК?",
+                    o: ["Аденин", "Урацил", "Тимин", "Цитозин"],
+                    a: 1
+                }
+            ]
+        }
+    };
+
+    let currentSubject = '';
+    let currentQuestionIdx = 0;
+    let selectedOptionIdx = null;
+    let correctAnswersCount = 0;
+
+    function initScores() {
+        Object.keys(subjectsData).forEach(sub => {
+            const saved = localStorage.getItem(`score_10th_${sub}`);
+            if (saved !== null) {
+                updateProgressBar(sub, parseInt(saved));
+            }
+        });
+    }
+
+    function updateProgressBar(sub, score) {
+        document.getElementById(`score-${sub}`).innerText = `${score}%`;
+        document.getElementById(`bar-${sub}`).style.width = `${score}%`;
+    }
+
+    function openSubject(key) {
+        currentSubject = key;
+        currentQuestionIdx = 0;
+        selectedOptionIdx = null;
+        correctAnswersCount = 0;
+
+        const data = subjectsData[key];
+        document.getElementById('ws-title').innerText = data.title;
+        document.getElementById('ws-why').innerText = data.why;
+        document.getElementById('ws-achieve').innerText = data.achieve;
+
+        document.getElementById('main-menu').style.display = 'none';
+        document.getElementById('workspace').style.display = 'block';
+
+        renderQuestion();
+    }
+
+    function closeWorkspace() {
+        document.getElementById('workspace').style.display = 'none';
+        document.getElementById('main-menu').style.display = 'grid';
+    }
+
+    function renderQuestion() {
+        const quizContainer = document.getElementById('quiz-container');
+        const questions = subjectsData[currentSubject].questions;
+        
+        if (currentQuestionIdx >= questions.length) {
+            const percent = Math.round((correctAnswersCount / questions.length) * 100);
+            localStorage.setItem(`score_10th_${currentSubject}`, percent);
+            updateProgressBar(currentSubject, percent);
+
+            quizContainer.innerHTML = `
+                <div class="result-box">
+                    <div class="result-score">${percent}%</div>
+                    <p style="font-weight:600; margin-bottom: 1rem;">Экзамен успешно завершен!</p>
+                    <p style="color: var(--text-muted); margin-bottom:1.5rem;">Правильных ответов: ${correctAnswersCount} из ${questions.length}</p>
+                    <button class="btn-next" onclick="openSubject('${currentSubject}')">Пройти еще раз</button>
+                </div>
+            `;
+            document.getElementById('exam-progress').innerText = `Готово`;
+            return;
+        }
+
+        const qData = questions[currentQuestionIdx];
+        document.getElementById('exam-progress').innerText = `Вопрос ${currentQuestionIdx + 1} из ${questions.length}`;
+
+        let optionsHtml = qData.o.map((opt, idx) => `
+            <div class="option-item" onclick="selectOption(${idx})" id="opt-${idx}">
+                ${opt}
+            </div>
+        `).join('');
+
+        quizContainer.innerHTML = `
+            <div class="question-box">
+                <div class="question-text">${qData.q}</div>
+                <div class="options-list">
+                    ${optionsHtml}
+                </div>
+            </div>
+            <div class="exam-actions">
+                <button class="btn-next" id="btn-submit" disabled onclick="submitAnswer()">Ответить</button>
+            </div>
+        `;
+        selectedOptionIdx = null;
+    }
+
+    function selectOption(idx) {
+        selectedOptionIdx = idx;
+        const items = document.querySelectorAll('.option-item');
+        items.forEach((item, i) => {
+            if (i === idx) {
+                item.classList.add('selected');
+            } else {
+                item.classList.remove('selected');
+            }
+        });
+        document.getElementById('btn-submit').disabled = false;
+    }
+
+    function submitAnswer() {
+        const qData = subjectsData[currentSubject].questions[currentQuestionIdx];
+        if (selectedOptionIdx === qData.a) {
+            correctAnswersCount++;
+        }
+        currentQuestionIdx++;
+        renderQuestion();
+    }
+
+    window.onload = initScores;
+</script>
+
+</body>
+</html>
